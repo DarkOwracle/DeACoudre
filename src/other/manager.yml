@@ -1,0 +1,296 @@
+settings:
+  #You can register your QuestionAndAnswer in the 'namesOfQuestions' section.
+  #After writing the name of your QuestionAndAnswer, i suggest you to copy/paste an other section, then you will just have to modify it as you want.
+  name: "Mevo"
+  prefix: "&6[Manager]"
+  chat: "&2>> {prefix} &6{managerName}&2:&7"
+  namesOfQuestions:
+  - "callManager"
+  - "hello"
+  - "INeedSomething"
+  - "IHave"
+  - "IsThat/DoesIt/AreYou"
+  - "howAreYou"
+  - "love"
+  - "how"
+  - "youAre"
+  - "willI"
+willI:
+  arguments:
+    french:
+      - "||est ce que je vais"
+      - "||est-ce que je vais"
+      - "||vais-je"
+      - "||je vais"
+    english:
+      - ""
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Je crains de ne psa savoir {playerName}."
+      - "Ah! Tu fais bien de le dire {playerName} !"
+      - "Tu n'es pas digne de dire une telle chose {playerName}."
+      - "Es-tu sûr de vouloir savoir {playerName} ?"
+      - "Je trouve qu'il y a quelque chose entre nous {playerName}..."
+      - "Ok {playerName}."
+      - "J'aime les pâtes."
+    english:
+      - ""
+    spanish:
+      - ""
+youAre:
+  arguments:
+    french:
+      - "tu es"
+    english:
+      - "you are"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Je crains de m'en ficher {playerName}."
+      - "Ah! Tu fais bien de le dire {playerName} !"
+      - "Tu n'es pas digne de dire une telle chose {playerName}."
+      - "Es-tu sûr de vouloir me provoquer {playerName} ?"
+      - "Je trouve qu'il y a quelque chose entre nous {playerName}..."
+      - "Ok {playerName}."
+      - "J'aime les pâtes."
+    english:
+      - ""
+    spanish:
+      - ""
+how:
+  arguments:
+    french:
+      - "comment"
+      - "||tu"
+      - "||ton"
+    english:
+      - "how"
+      - "||do you"
+      - "||your"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Je crains de ne pas savoir {playerName}."
+      - "Ah! Tu fais bien de le demander {playerName} !"
+      - "Tu n'es pas digne de connaître cette réponse {playerName}."
+      - "Es-tu sûr de vouloir savoir {playerName} ?"
+      - "Je trouve qu'il y a quelque chose entre nous {playerName}..."
+      - "Ok {playerName}."
+      - "Je cueille des pommes {playerName} !"
+    english:
+      - "I'm sorry I don't know {playerName}."
+      - "Ah! You're doing the right thing by asking!"
+      - "You are not worthy to know this answer {playerName}."
+      - "Are you sure you want to know {playerName}?"
+      - "I think there's something between us {playerName}..."
+      - "Okay {playerName}."
+      - "I'm picking apples!"
+    spanish:
+      - "Me temo que no lo sé"
+      - "¡Ah! ¡Estás haciendo lo correcto al preguntar!"
+      - "No eres digno de saber esta respuesta {playerName}."
+      - "¿Estás seguro de que quieres saber {playerName}?"
+      - "Creo que hay algo entre nosotros..."
+      - "Vale {playerName}."
+      - "¡Estoy recogiendo manzanas!"
+love:
+  arguments:
+    french:
+      - "aime"
+    english:
+      - "love"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "{playerName}..."
+      - "Je n'aime que le meilleur joueur DAC {playerName}, et ce n'est sûrement pas toi !"
+      - "Tu n'es pas digne de dire cela {playerName} !"
+      - "Et-tu sûr de vouloir savoir ma réponse {playerName} ?"
+      - "Je ne suis pas prêt pour te réponse {playerName} ?"
+      - "Véritablement {playerName} ?"
+      - "Je n'aime que mon créateur {playerName} !"
+    english:
+      - "{playerName}..."
+      - "I only like the best DAC player, and it's certainly not you!"
+      - "You are not worthy to say that!"
+      - "Are you sure you want to know my answer?"
+      - "I'm not ready for your answer?"
+      - "Really {playerName}?"
+      - "I only love my creator!"
+    spanish:
+      - "{playerName}..."
+      - "¡Sólo me gusta el mejor jugador del DAC, y ciertamente no eres tú!"
+      - "¡No eres digno de decir eso!"
+      - "¿Estás seguro de que quieres saber mi respuesta?"
+      - "¿No estoy listo para tu respuesta?"
+      - "¿Realmente {playerName}?"
+      - "¡Sólo amo a mi creador!"
+howAreYou:
+  arguments:
+    french:
+      - "||comment ça va"
+      - "||comment tu vas"
+      - "||ça va"
+      - "||ca va"
+      - "||comment vas-tu"
+      - "||tu vas bien"
+      - "?"
+    english:
+      - "||How are you"
+      - "||How are you"
+      - "||It's okay"
+      - "||How are you"
+      - "||You're fine."
+      - "||Are you fine."
+      - "?"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Je vais très bien {playerName}."
+      - "Je ne vais pas bien, non! Un joueur n'arrête pas de gagner aujourd'hui!"
+      - "Je n'ai pas d'émotions, je suis une machine {playerName}."
+      - "Bien sûr que je vais bien! Mon projet arrive bientôt à sa fin..."
+      - "Non, car j'ai faim {playerName}. Je passe mon temps ici... '-'"
+      - "Oui {playerName}."
+    english:
+      - "I'm very well {playerName}."
+      - "I'm not fine, no! A player keeps winning today!"
+      - "I have no emotions, I'm a {playerName} machine."
+      - "Of course I'm fine! My project is coming to an end soon..."
+      - "No, because I'm hungry {playerName}. I spend my time here.... '-'"
+      - "Yes {playerName}."
+    spanish:
+      - "Estoy muy bien {playerName}."
+      - "No estoy bien, no! ¡Un jugador sigue ganando hoy!"
+      - "No tengo emociones, soy una máquina."
+      - "¡Por supuesto que estoy bien! Mi proyecto está llegando a su fin pronto..."
+      - "No, porque tengo hambre. Paso mi tiempo aquí..... '-'"
+      - "Si {playerName}..."
+callManager:
+  arguments:
+    french:
+      - "||{managerName}"
+      - "?"
+      - "||manager"
+    english:
+      - "||{managerName}"
+      - "?"
+      - "||manager"
+    spanish:
+      - "||{managerName}"
+      - "?"
+      - "||manager"
+  answers:
+    french:
+      - "Oui {playerName} ?"
+    english:
+      - "Yes {playerName} ?"
+    spanish:
+      - "Sí {playerName} ?"
+hello:
+  arguments:
+    french:
+      - "||Salut"
+      - "||Bonjour"
+      - "||Bonsoir"
+    english:
+      - "||hi"
+      - "||hello"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Salut {playerName}."
+      - "Bonjour {playerName}."
+      - "Bonsoir {playerName}."
+    english:
+      - "Hi {playerName}."
+      - "Hello {playerName}"
+    spanish:
+      - "Hola {playerName}."
+INeedSomething:
+  arguments:
+    french:
+      - "J'ai"
+      - "besoin"
+    english:
+      - "I need"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Je crains de ne pas pouvoir {playerName}."
+      - "Tu n'as pas la clartée d'espirt nécessaire pour en quémander {playerName} !"
+      - "Est-ce que ça m'intéresse {playerName} ?"
+    english:
+      - "I'm sorry, I can not {playerName}."
+      - "You don't have the espirt clarity you need to beg for it!"
+      - "Do I care about that?"
+    spanish:
+      - "Me temo que no puedo {playerName}."
+      - "¡No tienes la claridad que necesitas para rogar por ello!"
+      - "¿Me importa eso?"
+IHave:
+  arguments:
+    french:
+      - "J'ai"
+    english:
+      - "||I have"
+      - "||I got"
+      - "||I've"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Mentir est un pêché {playerName} !"
+      - "Est-ce que ça m'intéresse {playerName} ?"
+    english:
+      - "Lying is a sin {playerName} !"
+      - "Do I care about that?"
+    spanish:
+      - "¡Mentir es un pecado {playerName} !"
+      - "¿Me importa eso?"
+IsThat/DoesIt/AreYou:
+  arguments:
+    french:
+      - "est"
+      - "ce"
+      - "que"
+    english:
+      - "||is that"
+      - "||does it"
+      - "||do you"
+      - "||are you"
+    spanish:
+      - ""
+  answers:
+    french:
+      - "Je crains de ne pas savoir {playerName} !"
+      - "Probablement {playerName}."
+      - "Je ne sais pas {playerName}."
+      - "Es-tu sûr de vouloir savoir {playerName] ?"
+      - "Je ne suis pas capable de te réponde {playerName}."
+      - "Evidement! Tout le monde sait ça de nos jours {playerName} !"
+      - "Est-ce que ça m'intéresse {playerName} ?"
+    english:
+      - "I'm sorry, I don't know {playerName}!"
+      - "Probably {playerName}."
+      - "I don't know {playerName}."
+      - "Are you sure you want to know?"
+      - "I'm not able to answer you."
+      - "Of course! Everyone knows that nowadays!"
+      - "Do I care about that?"
+    spanish:
+      - "¡Me temo que no lo sé {playerName} !"
+      - "Probablemente {playerName}."
+      - "No sé {playerName}."
+      - "¿Estás seguro de que quieres saberlo?"
+      - "No puedo responderte."
+      - "¡Por supuesto! Todo el mundo lo sabe hoy en día!"
+      - "¿Me importa eso?"

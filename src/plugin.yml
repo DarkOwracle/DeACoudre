@@ -1,0 +1,7 @@
+name: DeACoudre
+version: 1.6.0
+author: Naruse
+main: fr.naruse.deacoudre.main.DacPlugin
+commands:
+  dac:
+    description: All commands for Dé à Coudre

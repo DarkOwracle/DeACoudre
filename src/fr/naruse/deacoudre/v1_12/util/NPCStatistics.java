@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class NPCStatistics implements Listener {
@@ -32,6 +33,18 @@ public class NPCStatistics implements Listener {
     public NPCStatistics(DacPluginV1_12 dacPlugin, Location loc) {
         this.pl = dacPlugin;
         this.location = loc;
+        Bukkit.getScheduler().scheduleSyncDelayedTask(dacPlugin.getDacPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                for (Iterator<NPC> it = CitizensAPI.getNPCRegistry().iterator(); it.hasNext(); ) {
+                    NPC npc = it.next();
+                    if(npc != npc && npc != firstNpc && npc != secondNpc && npc != thirdNpc){
+                        npc.despawn();
+                        System.out.println(npc);
+                    }
+                }
+            }
+        }, 20*5);
     }
 
     public void spawn(){
@@ -212,6 +225,11 @@ public class NPCStatistics implements Listener {
         }
         if(thirdNpc != null){
             thirdNpc.destroy();
+        }
+        for (Iterator<NPC> it = CitizensAPI.getNPCRegistry().iterator(); it.hasNext(); ) {
+            NPC npc = it.next();
+            npc.despawn();
+            System.out.println(npc);
         }
     }
 

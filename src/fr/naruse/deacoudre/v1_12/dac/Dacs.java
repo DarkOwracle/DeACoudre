@@ -1,13 +1,13 @@
 package fr.naruse.deacoudre.v1_12.dac;
 
 import com.google.common.collect.Lists;
-import fr.naruse.deacoudre.main.DacPlugin;
 import fr.naruse.deacoudre.manager.DacPluginV1_12;
-import fr.naruse.deacoudre.v1_12.util.DacPlayer;
+import fr.naruse.deacoudre.common.DacPlayer;
 import fr.naruse.deacoudre.v1_12.util.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -18,6 +18,7 @@ public class Dacs {
     private HashMap<Player, Dac> dacOfPlayer = new HashMap<>();
     private HashMap<Player, DacPlayer> dacPlayerOfPlayer = new HashMap<>();
     private DacPluginV1_12 pl;
+    private List<Sign> signsTaken = Lists.newArrayList();
     public Dacs(DacPluginV1_12 pl) {
         this.pl = pl;
         int count = 0;
@@ -109,7 +110,13 @@ public class Dacs {
             return;
         }
         if(!dacOfPlayer.containsKey(p)){
-            DacPlayer dacPlayer = new DacPlayer(pl, p);
+            //if(pl.commonPlugin != null){
+                //if(pl.commonPlugin.isInGame(p)){
+                   // p.sendMessage("§c"+Message.YOU_HAVE_A_GAME.getMessage());
+                    //return;
+                //}
+            //}
+            DacPlayer dacPlayer = new DacPlayer(p);
             dacPlayer.registerInventory();
             dacPlayer.registerGameMode();
             dacPlayerOfPlayer.put(p, dacPlayer);
@@ -139,6 +146,10 @@ public class Dacs {
 
     public List<Dac> getDacs() {
         return dacs;
+    }
+
+    public List<Sign> getSignsTaken() {
+        return signsTaken;
     }
 
     public HashMap<Player, Dac> getDacOfPlayer() {

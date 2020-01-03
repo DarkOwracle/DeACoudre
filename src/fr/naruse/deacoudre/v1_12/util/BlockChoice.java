@@ -1,6 +1,8 @@
 package fr.naruse.deacoudre.v1_12.util;
 
 import com.google.common.collect.Lists;
+import fr.naruse.deacoudre.common.Reflection;
+import net.minecraft.server.v1_12_R1.Block;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,14 +11,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class BlockChoice {
     private List<Inventory> invs = Lists.newArrayList();
     private HashMap<Integer, Inventory> invOfInteger = new HashMap<>();
     public BlockChoice(){
-        for(int i = 1; i <= 10; i++){
-            Inventory inv = Bukkit.createInventory(null, 9*6, "§2§l"+Message.BLOCK_CHOICE.getMessage()+" §3- "+i+"/6");
+        for(int i = 1; i <= 40; i++){
+            Inventory inv = Bukkit.createInventory(null, 9*6, "§2§l"+Message.BLOCK_CHOICE.getMessage()+" §3- "+i);
             invs.add(inv);
             invOfInteger.put(i-1, inv);
         }
@@ -84,12 +87,11 @@ public class BlockChoice {
         Inventory inv = invs.get(0);
         generateInv(inv);
         int invCount = 0;
-        for(int i = 0; i != Material.values().length; i++){
-            Material material = Material.getMaterial(i);
+        for(Material material : Material.values()){
             if(material == null){
                 break;
             }
-            if(material.isBlock() && material.isSolid()){
+            if(material.isSolid()){
                 item = new ItemStack(material);
                 boolean canPass = true;
                 for(String s : materialsToDelete){

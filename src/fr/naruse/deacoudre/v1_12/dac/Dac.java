@@ -14,6 +14,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -77,6 +79,21 @@ public class Dac implements Listener {
                         Player p = playerInGame.get(i);
                         p.setHealth(20);
                         p.setFoodLevel(20);
+                        if(!p.getInventory().contains(Material.MAGMA_CREAM)){
+                            ItemStack item = new ItemStack(Material.MAGMA_CREAM);
+                            ItemMeta meta = item.getItemMeta();
+                            meta.setDisplayName("§c"+Message.LEAVE_THIS_GAME.getMessage());
+                            item.setItemMeta(meta);
+                            p.getInventory().addItem(item);
+                            if(game.WAIT){
+                                item = new ItemStack(Material.BLAZE_POWDER);
+                                meta = item.getItemMeta();
+                                meta.setDisplayName("§2"+Message.BLOCK_CHOICE.getMessage());
+                                item.setItemMeta(meta);
+                                p.getInventory().setItem(8, item);
+                            }
+                            p.updateInventory();
+                        }
                     }
                     if(game.WAIT){
                         if(startTimer != 0){
@@ -108,6 +125,7 @@ public class Dac implements Listener {
                                     if (pl.otherPluginSupport.getVaultPlugin().getEconomy() != null) {
                                         if (pl.getConfig().getDouble("rewards.win") != 0) {
                                             pl.otherPluginSupport.getVaultPlugin().getEconomy().depositPlayer(p, pl.getConfig().getDouble("rewards.win"));
+                                            p.sendMessage(getFullName() +" §aVous venez de gagner 15 CoinTies.");
                                         }
                                     }
                                 }
@@ -137,6 +155,8 @@ public class Dac implements Listener {
                                 if (pl.otherPluginSupport.getVaultPlugin().getEconomy() != null) {
                                     if (pl.getConfig().getDouble("rewards.win") != 0) {
                                         pl.otherPluginSupport.getVaultPlugin().getEconomy().depositPlayer(getPlayerInGame().get(0), pl.getConfig().getDouble("rewards.win"));
+                                        getPlayerInGame().get(0).sendMessage(getFullName() +" §aVous venez de gagner 15 CoinTies.");
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "level giveexp "+getPlayerInGame().get(0).getName()+" 2");
                                     }
                                 }
                                 restart(true);
@@ -196,6 +216,11 @@ public class Dac implements Listener {
                                         new LaunchFireworks(pl.getDacPlugin(), jumper.getLocation().clone().add(0, 2, 0), pl.getConfig().getInt("firework.count"));
                                     }
                                     sendMessage(getFullName() +" §6"+jumper.getName()+"§d "+Message.MADE_PERFECT.getMessage());
+                                    if (pl.otherPluginSupport.getVaultPlugin().getEconomy() != null) {
+                                        pl.otherPluginSupport.getVaultPlugin().getEconomy().depositPlayer(jumper, 5d);
+                                        jumper.sendMessage(getFullName() +" §aVous venez de gagner 5 CoinTies.");
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "level giveexp "+jumper.getName()+" 2");
+                                    }
                                     int lives = pl.getConfig().getInt("lives.max");
                                     livesOfPlayer.put(jumper, livesOfPlayer.get(jumper)+1);
                                     if(lives >= 1){
@@ -241,8 +266,7 @@ public class Dac implements Listener {
                                     jumper.sendMessage(getFullName() +" §a"+Message.SUCCESFULL_JUMP.getMessage());
                                     PlayerStatistics playerStatistics = pl.statisticsOfPlayer.get(jumper);
                                     playerStatistics.addJumps(1);
-                                    nextPlayer();
-                                }
+                                    nextPlayer(); }
                             }
                         }
                     }
@@ -277,7 +301,7 @@ public class Dac implements Listener {
         if(jumper != null){
             jumper.setGameMode(GameMode.CREATIVE);
             jumper.teleport(pool);
-            jumper.setGameMode(GameMode.SURVIVAL);
+            jumper.setGameMode(GameMode.ADVENTURE);
             playerInGame.remove(jumper);
             playerInGame.add(jumper);
         }
@@ -290,12 +314,12 @@ public class Dac implements Listener {
                     @Override
                     public void run() {
                         if(jumper != null){
-                            jumper.setGameMode(GameMode.SURVIVAL);
+                            jumper.setGameMode(GameMode.ADVENTURE);
                         }
                     }
                 }, 5);
             }else{
-                jumper.setGameMode(GameMode.SURVIVAL);
+                jumper.setGameMode(GameMode.ADVENTURE);
             }
             if(playerInGame.size() != 1){
                 playerInGame.get(1).sendMessage(getFullName() +" §b"+Message.NEXT_TO_JUMP.getMessage());
@@ -380,7 +404,7 @@ public class Dac implements Listener {
             p.setScoreboard(scoreboardSign.getScoreboard());
             p.setGameMode(GameMode.CREATIVE);
             p.teleport(lobby);
-            p.setGameMode(GameMode.SURVIVAL);
+            p.setGameMode(GameMode.ADVENTURE);
             if(pl.getConfig().getBoolean("broadcast.comeJoin.enable")){
                 int i = min;
                 if(pl.getConfig().getInt("broadcast.comeJoin.number") != 0){
@@ -411,7 +435,7 @@ public class Dac implements Listener {
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
             p.setGameMode(GameMode.CREATIVE);
             p.teleport(end);
-            p.setGameMode(GameMode.SURVIVAL);
+            p.setGameMode(GameMode.ADVENTURE);
         }
     }
 
@@ -519,9 +543,10 @@ public class Dac implements Listener {
             for(BlockState state : c.getTileEntities()){
                 if(state instanceof Sign){
                     Sign sign = (Sign) state;
-                    if(sign.getLine(0).equalsIgnoreCase("§c§l[§5"+name+"§c§l]")){
-                        if(!signs.contains(sign)){
+                    if(sign.getLine(0).equals("§c§l[§5"+name+"§c§l]")){
+                        if(!signs.contains(sign) && !pl.dacs.getSignsTaken().contains(sign)){
                             signs.add(sign);
+                            pl.dacs.getSignsTaken().add(sign);
                         }
                     }
                 }
@@ -530,8 +555,21 @@ public class Dac implements Listener {
         updateSigns();
     }
 
+    public void registerSign(Sign sign){
+        if(sign.getLine(0).equals("§c§l[§5"+name+"§c§l]")){
+            if(!signs.contains(sign) && !pl.dacs.getSignsTaken().contains(sign)){
+                signs.add(sign);
+                pl.dacs.getSignsTaken().add(sign);
+            }
+        }
+        updateSigns();
+    }
+
     private List<Player> playersNoDamage = Lists.newArrayList();
     public void makeLose(Player p){
+        if(pl.getConfig().getBoolean("firework.isEnable")){
+            new LaunchFireworks(pl.getDacPlugin(), jumper.getLocation().clone().add(0, 2, 0), 1);
+        }
         playersNoDamage.add(p);
         divingTimer = getOriginalDivingTimer();
         nextPlayer();
@@ -572,6 +610,20 @@ public class Dac implements Listener {
                 e.setCancelled(true);
                 playersNoDamage.remove(p);
             }
+        }
+    }
+
+    @EventHandler
+    public void breakBlock(BlockBreakEvent e){
+        if(playerInGame.contains(e.getPlayer())){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void breakBlock(BlockPlaceEvent e){
+        if(playerInGame.contains(e.getPlayer())){
+            e.setCancelled(true);
         }
     }
 
@@ -678,6 +730,14 @@ public class Dac implements Listener {
 
     public boolean isOpen() {
         return isOpen;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public int getMin() {
+        return min;
     }
 
     public class Game{

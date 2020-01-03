@@ -7,15 +7,20 @@ import fr.naruse.deacoudre.manager.DacPluginV1_12;
 import fr.naruse.deacoudre.v1_12.dac.Dac;
 import fr.naruse.deacoudre.v1_12.util.Message;
 import fr.naruse.deacoudre.v1_12.util.PlayerStatistics;
-import fr.naruse.deacoudre.v1_12.util.leaderboard.Holograms;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.Item;
+import net.minecraft.server.v1_12_R1.ItemAir;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -275,28 +280,6 @@ public class DacCommands implements CommandExecutor, TabExecutor {
                 }
                 if(args.length < 3){
                    return help(sender, 1);
-                }
-                if(args[1].equalsIgnoreCase("holograms")){
-                    if(args.length < 3){
-                        return help(sender, 3);
-                    }
-                    if(args[2].equalsIgnoreCase("location")){
-                        pl.getConfig().set("holograms.location.x", p.getLocation().getX());
-                        pl.getConfig().set("holograms.location.y", p.getLocation().getY());
-                        pl.getConfig().set("holograms.location.z", p.getLocation().getZ());
-                        pl.getConfig().set("holograms.location.world", p.getLocation().getWorld().getName());
-                        pl.saveConfig();
-                        pl.holograms.removeLeaderBoard();
-                        pl.holograms = new Holograms(pl);
-                        return sendMessage(sender, Message.DAC.getMessage()+" §a"+ Message.LOCATION_SAVED.getMessage());
-                    }
-                    if(args[2].equalsIgnoreCase("enable")){
-                        pl.getConfig().set("holograms.enable", !pl.getConfig().getBoolean("holograms.enable"));
-                        pl.saveConfig();
-                        pl.holograms.removeLeaderBoard();
-                        pl.holograms = new Holograms(pl);
-                        return sendMessage(sender, Message.DAC.getMessage()+" §a"+ Message.SETTING_SAVED.getMessage());
-                    }
                 }
                 if(args[1].equalsIgnoreCase("rewards")){
                     if(args.length < 4){

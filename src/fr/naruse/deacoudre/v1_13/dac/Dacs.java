@@ -3,7 +3,7 @@ package fr.naruse.deacoudre.v1_13.dac;
 import com.google.common.collect.Lists;
 import fr.naruse.deacoudre.manager.DacPluginV1_12;
 import fr.naruse.deacoudre.manager.DacPluginV1_13;
-import fr.naruse.deacoudre.v1_13.util.DacPlayer;
+import fr.naruse.deacoudre.common.DacPlayer;
 import fr.naruse.deacoudre.v1_13.util.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -109,7 +109,7 @@ public class Dacs {
             return;
         }
         if(!dacOfPlayer.containsKey(p)){
-            DacPlayer dacPlayer = new DacPlayer(pl, p);
+            DacPlayer dacPlayer = new DacPlayer(p);
             dacPlayer.registerInventory();
             dacPlayer.registerGameMode();
             dacPlayerOfPlayer.put(p, dacPlayer);

@@ -5,6 +5,9 @@ import org.bukkit.Bukkit;
 public class Utils {
 
     public static double getBukkitVersion(){
+        if(Bukkit.getVersion().contains("1.15")){
+            return 1.15;
+        }
         if(Bukkit.getVersion().contains("1.14")){
             return 1.14;
         }

@@ -157,7 +157,6 @@ howAreYou:
       - "Je n'ai pas d'émotions, je suis une machine {playerName}."
       - "Bien sûr que je vais bien! Mon projet arrive bientôt à sa fin..."
       - "Non, car j'ai faim {playerName}. Je passe mon temps ici... '-'"
-      - "Oui {playerName}."
     english:
       - "I'm very well {playerName}."
       - "I'm not fine, no! A player keeps winning today!"

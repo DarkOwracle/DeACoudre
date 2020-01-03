@@ -5,6 +5,7 @@ import fr.naruse.deacoudre.v1_12.dac.Dac;
 import fr.naruse.deacoudre.main.DacPlugin;
 import fr.naruse.deacoudre.v1_12.util.Message;
 import fr.naruse.deacoudre.v1_12.util.PlayerStatistics;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -25,9 +29,18 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
+    public void playerJoinWorld(PlayerChangedWorldEvent e){
+        if(e.getPlayer().getWorld().getName().equalsIgnoreCase("Event")){
+            e.getPlayer().getInventory().clear();
+            e.getPlayer().setGameMode(GameMode.ADVENTURE);
+        }
+    }
+
+    @EventHandler
     public void join(PlayerJoinEvent e){
         PlayerStatistics playerStatistics = new PlayerStatistics(pl, e.getPlayer().getName());
         pl.statisticsOfPlayer.put(e.getPlayer(), playerStatistics);
+        e.getPlayer().performCommand("spawn");
     }
 
     @EventHandler
@@ -41,9 +54,24 @@ public class Listeners implements Listener {
     public void command(PlayerCommandPreprocessEvent e){
         if(pl.dacs.getDacOfPlayer().containsKey(e.getPlayer())){
             List<String> commands = pl.configurations.getCommands().getConfig().getStringList("commands");
-            if(commands.contains(e.getMessage().split(" ")[0].replace("/", ""))){
-                e.setCancelled(true);
+            commands.add("/fly");
+            commands.add("/spawn");
+            for(String s : commands){
+                if(s.equalsIgnoreCase(e.getMessage().split(" ")[0])){
+                    e.setCancelled(true);
+                    break;
+                }
             }
+        }
+    }
+
+    @EventHandler
+    public void damage(EntityDamageEvent e){
+        if(e.getEntity() instanceof Player){
+            Player p = (Player) e.getEntity();
+            //if(pl.commonPlugin != null){
+                e.setCancelled(true);
+            //}
         }
     }
 
@@ -69,10 +97,10 @@ public class Listeners implements Listener {
                     if(sign.getLine(0).equalsIgnoreCase("-!!-") && sign.getLine(3).equalsIgnoreCase("-!!-")){
                         if(sign.getLine(1).equalsIgnoreCase(sign.getLine(2))){
                             for(Dac dac : pl.dacs.getDacs()){
-                                if(dac.getName().equalsIgnoreCase(sign.getLine(1))){
+                                if(dac.getName().equals(sign.getLine(1))){
                                     sign.setLine(0, dac.getFullName());
                                     sign.update();
-                                    dac.registerNewSigns(p.getWorld());
+                                    dac.registerSign(sign);
                                     return;
                                 }
                             }
@@ -148,5 +176,28 @@ public class Listeners implements Listener {
                 }
             }
         }
+    }
+
+
+    @EventHandler
+    public void breakBlock(BlockBreakEvent e){
+        //if(pl.commonPlugin != null){
+            //if(!pl.commonPlugin.isInGame(e.getPlayer())){
+                if(!hasPermission(e.getPlayer(), "break")){
+                    e.setCancelled(true);
+                }
+            //}
+        //}
+    }
+
+    @EventHandler
+    public void breakBlock(BlockPlaceEvent e){
+        //if(pl.commonPlugin != null){
+            //if(!pl.commonPlugin.isInGame(e.getPlayer())){
+                if(!hasPermission(e.getPlayer(), "place")){
+                    e.setCancelled(true);
+                }
+            //}
+        //}
     }
 }

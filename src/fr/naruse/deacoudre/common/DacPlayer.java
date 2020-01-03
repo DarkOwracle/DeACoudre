@@ -1,7 +1,8 @@
-package fr.naruse.deacoudre.v1_13.util;
+package fr.naruse.deacoudre.common;
 
+import fr.naruse.deacoudre.main.DacPlugin;
 import fr.naruse.deacoudre.manager.DacPluginV1_12;
-import fr.naruse.deacoudre.manager.DacPluginV1_13;
+import fr.naruse.deacoudre.v1_12.util.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -12,15 +13,13 @@ import org.bukkit.inventory.ItemStack;
 public class DacPlayer {
     private Inventory inv;
     private Player p;
-    private DacPluginV1_13 pl;
     private GameMode gameMode;
-    public DacPlayer(DacPluginV1_13 pl, Player p){
-        this.pl = pl;
+    public DacPlayer(Player p){
         this.p = p;
     }
 
     public void registerInventory(){
-        inv = Bukkit.createInventory(null, 9*6, p.getName());
+        inv = Bukkit.createInventory(null, 9*6);
         for(int i = 0; i < inv.getSize(); i++){
             try{
                 if(p.getInventory().getItem(i) != null){
@@ -52,7 +51,7 @@ public class DacPlayer {
                     }
                 }else if(item.getType() == Material.BLAZE_POWDER){
                     if(item.getItemMeta().getDisplayName() != null){
-                        if(item.getItemMeta().getDisplayName().equalsIgnoreCase("§2"+ Message.BLOCK_CHOICE.getMessage())){
+                        if(item.getItemMeta().getDisplayName().equalsIgnoreCase("§2"+Message.BLOCK_CHOICE.getMessage())){
                             p.getInventory().remove(item);
                         }
                     }

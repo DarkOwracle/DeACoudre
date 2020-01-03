@@ -4,6 +4,9 @@ import fr.naruse.deacoudre.common.Utils;
 import fr.naruse.deacoudre.manager.AbstractDacPlugin;
 import fr.naruse.deacoudre.manager.DacPluginV1_12;
 import fr.naruse.deacoudre.manager.DacPluginV1_13;
+import fr.naruse.deacoudre.v1_12.util.DACPlaceHolder;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DacPlugin extends JavaPlugin {

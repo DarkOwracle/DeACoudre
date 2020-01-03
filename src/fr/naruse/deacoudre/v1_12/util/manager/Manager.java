@@ -6,8 +6,7 @@ import fr.naruse.deacoudre.manager.DacPluginV1_12;
 import fr.naruse.deacoudre.v1_12.util.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -22,7 +21,7 @@ import java.util.Random;
 public class Manager extends BukkitRunnable implements Listener {
     private DacPluginV1_12 pl;
     private Location location;
-    private Enderman manager;
+    private Parrot manager;
     private String name;
     private String prefix;
     private String chat;
@@ -32,26 +31,44 @@ public class Manager extends BukkitRunnable implements Listener {
     private List<String[]> allArguments = Lists.newArrayList();
     public Manager(DacPluginV1_12 pl, Location location){
         this.pl = pl;
-        /*
+        for(Entity e : location.getWorld().getEntities()){
+            if(e instanceof Parrot){
+                e.remove();
+            }
+        }
         this.random = new Random();
         this.location = location;
-        this.manager = (Enderman) location.getWorld().spawnEntity(location, EntityType.ENDERMAN);
+        this.manager = (Parrot) location.getWorld().spawnEntity(location, EntityType.PARROT);
         this.name = pl.configurations.getManager().getConfig().getString("settings.name").replace("&", "§");
         this.prefix = pl.configurations.getManager().getConfig().getString("settings.prefix").replace("&", "§");
         this.chat = replacer(pl.configurations.getManager().getConfig().getString("settings.chat"), "");
         manager.setCustomName(prefix+" "+name);
         manager.setCustomNameVisible(true);
         generateQuestionsAndAnswers();
-        this.runTaskTimer(pl, 20, 20);
-        */
+        this.runTaskTimer(pl.getDacPlugin(), 20, 20);
+    }
+
+    private void sendMessage(String msg){
+        for(Player p : Bukkit.getOnlinePlayers()){
+            p.sendMessage(msg);
+        }
     }
 
     @Override
     public void run() {
-        if(manager.getLocation().distance(location) >= 15){
+        if(manager.getLocation().distance(location) >= 40){
             manager.teleport(location);
         }
-        manager.setTarget(null);
+        double closest = 50;
+        Player target = null;
+        for(Player p : Bukkit.getOnlinePlayers()){
+            double d = p.getLocation().distance(manager.getLocation());
+            if(d < closest){
+                closest = d;
+                target = p;
+            }
+        }
+        manager.setTarget(target);
         for(Player p : answerOfPlayer.keySet()){
             int temp = timeOfPlayer.get(p);
             if(temp != 0){
@@ -59,7 +76,7 @@ public class Manager extends BukkitRunnable implements Listener {
                 timeOfPlayer.put(p, temp);
             }else if(temp == 0){
                 needToClear.add(p);
-                Bukkit.broadcastMessage(chat+" "+answerOfPlayer.get(p));
+                sendMessage(chat+" "+answerOfPlayer.get(p));
             }
         }
         for(Player p : needToClear){
@@ -177,7 +194,7 @@ public class Manager extends BukkitRunnable implements Listener {
 
     @EventHandler
     public void teleport(EntityTeleportEvent e){
-        if(e.getEntity() instanceof Enderman){
+        if(e.getEntity() instanceof Parrot){
             if(e.getEntity() == manager){
                 e.setCancelled(true);
             }
@@ -186,7 +203,7 @@ public class Manager extends BukkitRunnable implements Listener {
 
     @EventHandler
     public void damage(EntityDamageEvent e){
-        if(e.getEntity() instanceof Enderman){
+        if(e.getEntity() instanceof Parrot){
             if(e.getEntity() == manager){
                 e.setCancelled(true);
             }
@@ -195,7 +212,7 @@ public class Manager extends BukkitRunnable implements Listener {
 
     @EventHandler
     public void block(EntityChangeBlockEvent e){
-        if(e.getEntity() instanceof Enderman){
+        if(e.getEntity() instanceof Parrot){
             if(e.getEntity() == manager){
                 e.setCancelled(true);
             }

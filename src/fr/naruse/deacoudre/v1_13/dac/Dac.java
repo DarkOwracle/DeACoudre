@@ -40,7 +40,6 @@ public class Dac implements Listener {
     private List<Sign> signs = Lists.newArrayList();
     private List<Player> playerInGame = Lists.newArrayList();
     private HashMap<Player, Integer> livesOfPlayer = new HashMap<>();
-    private HashMap<Player, Byte> dataBlockOfPlayer = new HashMap<>();
     private HashMap<Player, Material> materialBlockOfPlayer = new HashMap<>();
     private List<Block> blocks = Lists.newArrayList();
     private List<Block> blocksOfRegionVerif = Lists.newArrayList();
@@ -213,7 +212,6 @@ public class Dac implements Listener {
                                     while (loc.getBlock().getType() == Material.WATER || loc.getBlock().getType() == Material.STATIONARY_WATER){
                                         blocksOfRegionVerif.remove(loc.getBlock());
                                         loc.getBlock().setType(materialBlockOfPlayer.get(jumper));
-                                        loc.getBlock().setData(dataBlockOfPlayer.get(jumper));
                                         blocks.add(loc.getBlock());
                                         loc.setY(loc.getY()+1);
                                     }
@@ -222,14 +220,12 @@ public class Dac implements Listener {
                                     while (loc.getBlock().getType() == Material.WATER || loc.getBlock().getType() == Material.STATIONARY_WATER){
                                         blocksOfRegionVerif.remove(loc.getBlock());
                                         loc.getBlock().setType(materialBlockOfPlayer.get(jumper));
-                                        loc.getBlock().setData(dataBlockOfPlayer.get(jumper));
                                         blocks.add(loc.getBlock());
                                         loc.setY(loc.getY()-1);
                                     }
                                     blocksOfRegionVerif.remove(jumper.getLocation().getBlock());
                                     loc = jumper.getLocation().getBlock().getLocation().clone();
                                     loc.getBlock().setType(materialBlockOfPlayer.get(jumper));
-                                    loc.getBlock().setData(dataBlockOfPlayer.get(jumper));
                                     blocks.add(jumper.getLocation().getBlock());
                                     jumper.sendMessage(getFullName() +" §a"+ Message.SUCCESFULL_JUMP.getMessage());
                                     PlayerStatistics playerStatistics = pl.statisticsOfPlayer.get(jumper);
@@ -352,7 +348,6 @@ public class Dac implements Listener {
             }
             playerInGame.add(p);
             livesOfPlayer.put(p, pl.getConfig().getInt("lives.min"));
-            dataBlockOfPlayer.put(p, (byte) new Random().nextInt(15));
             materialBlockOfPlayer.put(p, blockTypes[new Random().nextInt(blockTypes.length)]);
             p.getInventory().clear();
             p.getInventory().setHeldItemSlot(1);
@@ -395,7 +390,6 @@ public class Dac implements Listener {
             }
             playerInGame.remove(p);
             livesOfPlayer.remove(p);
-            dataBlockOfPlayer.remove(p);
             materialBlockOfPlayer.remove(p);
             p.getInventory().clear();
             p.updateInventory();
@@ -620,7 +614,6 @@ public class Dac implements Listener {
     public void setBlockAndDataOfPlayer(Player p, Material matarial, Byte data){
         if(playerInGame.contains(p)){
             materialBlockOfPlayer.put(p, matarial);
-            dataBlockOfPlayer.put(p, data);
         }
     }
 

@@ -7,12 +7,10 @@ import fr.naruse.deacoudre.v1_13.cmd.DacCommands;
 import fr.naruse.deacoudre.v1_13.dac.Dac;
 import fr.naruse.deacoudre.v1_13.dac.Dacs;
 import fr.naruse.deacoudre.v1_13.event.Listeners;
-import fr.naruse.deacoudre.v1_13.util.BlockChoice;
-import fr.naruse.deacoudre.v1_13.util.Logs;
-import fr.naruse.deacoudre.v1_13.util.NPCStatistics;
-import fr.naruse.deacoudre.v1_13.util.PlayerStatistics;
+import fr.naruse.deacoudre.v1_13.util.*;
 import fr.naruse.deacoudre.v1_13.util.leaderboard.Holograms;
 import fr.naruse.deacoudre.v1_13.util.support.OtherPluginSupport;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -62,6 +60,9 @@ public class DacPluginV1_13 extends AbstractDacPlugin {
                 init();
                 logs.stop();
                 holograms = new Holograms(INSTANCE);
+                if((PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+                    new DACPlaceHolder().register();
+                }
             }
         });
     }

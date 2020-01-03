@@ -6,17 +6,17 @@ import fr.naruse.deacoudre.v1_12.cmd.DacCommands;
 import fr.naruse.deacoudre.v1_12.dac.Dac;
 import fr.naruse.deacoudre.v1_12.dac.Dacs;
 import fr.naruse.deacoudre.v1_12.event.Listeners;
-import fr.naruse.deacoudre.v1_12.util.BlockChoice;
-import fr.naruse.deacoudre.v1_12.util.Logs;
-import fr.naruse.deacoudre.v1_12.util.NPCStatistics;
-import fr.naruse.deacoudre.v1_12.util.PlayerStatistics;
+import fr.naruse.deacoudre.v1_12.util.*;
 import fr.naruse.deacoudre.common.configuration.Configurations;
-import fr.naruse.deacoudre.v1_12.util.leaderboard.Holograms;
 import fr.naruse.deacoudre.v1_12.util.manager.Manager;
 import fr.naruse.deacoudre.v1_12.util.support.OtherPluginSupport;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
@@ -33,7 +33,7 @@ public class DacPluginV1_12 extends AbstractDacPlugin {
     public Configurations configurations;
     public OtherPluginSupport otherPluginSupport;
     public Logs logs;
-    public Holograms holograms;
+    //public CommonPlugin commonPlugin;
     public DacPluginV1_12(DacPlugin pl) {
         super(pl);
         this.pl = pl;
@@ -43,6 +43,7 @@ public class DacPluginV1_12 extends AbstractDacPlugin {
     public void onEnable() {
         this.INSTANCE = this;
         saveConfig();
+        new HuntiesRunnable().runTaskTimer(pl, 20, 20);
         Bukkit.getScheduler().scheduleSyncDelayedTask(this.getDacPlugin(), new Runnable() {
             @Override
             public void run() {
@@ -63,7 +64,11 @@ public class DacPluginV1_12 extends AbstractDacPlugin {
                 }
                 init();
                 logs.stop();
-                holograms = new Holograms(INSTANCE);
+                //holograms = new Holograms(INSTANCE);
+                //commonPlugin = (CommonPlugin) Bukkit.getPluginManager().getPlugin("NaruseResourcesCommon");
+                if((PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+                    new DACPlaceHolder().register();
+                }
             }
         });
     }
@@ -82,7 +87,7 @@ public class DacPluginV1_12 extends AbstractDacPlugin {
         if(npcStatistics != null){
             npcStatistics.onDisable();
         }
-        holograms.removeLeaderBoard();
+        //holograms.removeLeaderBoard();
     }
 
     @Override
@@ -142,6 +147,32 @@ public class DacPluginV1_12 extends AbstractDacPlugin {
             }
         }else{
             System.out.println("[DeACoudre] Le Manager n'est pas configure.");
+        }
+    }
+
+    class HuntiesRunnable extends BukkitRunnable{
+
+        @Override
+        public void run() {
+            for(Player p : Bukkit.getOnlinePlayers()){
+                if(p.getWorld().getName().equalsIgnoreCase("Event")){
+                    if(p.getInventory().contains(Material.CHEST)){
+                        p.getInventory().clear();
+                    }
+                    if(p.isFlying() && p.getGameMode() != GameMode.CREATIVE){
+                        p.setFlying(false);
+                        p.setAllowFlight(false);
+                    }
+                }
+                //if(commonPlugin != null){
+                    //if(!commonPlugin.isInGame(p)){
+                        p.setFoodLevel(20);
+                        if(p.getGameMode() == GameMode.SURVIVAL){
+                            p.setGameMode(GameMode.ADVENTURE);
+                        }
+                    //}
+                //}
+            }
         }
     }
 }
